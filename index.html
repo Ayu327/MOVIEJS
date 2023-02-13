@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Movie Info App</h1>
+  <div id="search">
+    <input type="text" id="input" placeholder="search for a movie"/>
+    <button id="btn">Search</button>
+  </div>
+
+  <div id="results" style="padding:20px"></div>
+
+  <script>
+    let input = document.getElementById('input')
+    let btn = document.getElementById('btn')
+    let results =document.getElementById('results')
+    
+    btn.addEventListener('click',function(){
+      let inputvalue = input.value
+      let Url = `http://www.omdbapi.com/?apikey=5cd51730&t=${inputvalue}`
+      const imgage = `http://img.omdbapi.com/?apikey=5cd51730&`
+
+          fetch(Url)
+          .then((response)=> response.json())
+          .then((res)=>{
+            const movie = res;
+            const PosterUrl = `${imgage}&i=${movie.imdbID}`;
+
+            const html =
+            `<div>
+              <img src="${PosterUrl}" alt="${movie.Title}"/>
+              <p>Released in ${movie.Year}</p>
+              <p>IMDB rating : ${movie.imdbRating}</p>
+              <p>cast: ${movie.Actors}</p>
+              <p>director : ${movie.Director}</p>
+              </div>`
+              ;
+
+              results.innerHTML = html ;
+          })
+    })
+  </script>
+</body>
+</html>
